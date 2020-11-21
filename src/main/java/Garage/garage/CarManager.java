@@ -1,7 +1,6 @@
 package Garage.garage;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,13 +9,16 @@ import java.util.List;
 @Service
 public class CarManager {
 
-    private List<Car> carList;
+    protected List<Car> carList;
 
-    @Autowired
     public CarManager() {
         this.carList = new ArrayList<>();
-        carList.add(new Car("BMW", "E36", "KR8TM32", "12E"));
-        carList.add(new Car("Citroen", "Berlingo", "KR5ZJ22", "4J"));
+        carList.add(new Car((long) 1,"BMW", "E36", "KR8TM32", "12E"));
+        carList.add(new Car((long) 2, "Citroen", "Berlingo", "KR5ZJ22", "4J"));
+    }
+
+    public boolean AddCar(Car car){
+        return carList.add(car);
     }
 
     public List<Car> getCarList() {

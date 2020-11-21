@@ -1,25 +1,46 @@
 package Garage.garage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/api")
 public class ApiCar {
 
-    @Autowired
     private CarManager carManager;
 
-    @GetMapping("/getCars")
+    @Autowired
+    public ApiCar(CarManager carManager) {
+        this.carManager = carManager;
+    }
+
+    @GetMapping("/Cars")
     public List<Car> getCars(){
         return carManager.getCarList();
     }
 
-    @GetMapping("/hello")
-    public String hello(){
-        return "Hello";
+    @GetMapping
+    public Car getByBrand(@RequestParam String brand){
+        Optional<Car> first = carManager.carList.stream().filter(element -> element.getBrand().equals(brand))
+                .findAny();
+        return first.get();
+    }
 
+    @PostMapping
+    public boolean addCars(@RequestBody Car car){
+        return carManager.AddCar(car);
+    }
+
+    @PutMapping
+    public void updateCars(@RequestParam int index, @RequestBody Car car) {
+        carManager.carList.add(index, car);
+    }
+
+    @DeleteMapping
+    public boolean deleteCars(@RequestParam int index) {
+        return carManager.carList.removeIf(element -> element.getId() == index);
     }
 }
