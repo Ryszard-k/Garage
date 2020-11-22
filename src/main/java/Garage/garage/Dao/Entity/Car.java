@@ -1,7 +1,15 @@
-package Garage.garage;
+package Garage.garage.Dao.Entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Car {
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
     private Long id;
     private String brand;
     private String model;

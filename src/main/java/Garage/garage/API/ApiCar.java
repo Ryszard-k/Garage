@@ -1,8 +1,11 @@
-package Garage.garage;
+package Garage.garage.API;
 
+import Garage.garage.Manager.CarManager;
+import Garage.garage.Dao.Entity.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,37 +13,38 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class ApiCar {
 
-    private CarManager carManager;
+    public List<Car> carList;
 
-    @Autowired
-    public ApiCar(CarManager carManager) {
-        this.carManager = carManager;
+    public ApiCar() {
+        this.carList = new ArrayList<>();
+        carList.add(new Car((long) 1,"BMW", "E36", "KR8TM32", "12E"));
+        carList.add(new Car((long) 2, "Citroen", "Berlingo", "KR5ZJ22", "4J"));
     }
 
     @GetMapping("/Cars")
     public List<Car> getCars(){
-        return carManager.getCarList();
+        return carList;
     }
 
     @GetMapping
     public Car getByBrand(@RequestParam String brand){
-        Optional<Car> first = carManager.carList.stream().filter(element -> element.getBrand().equals(brand))
+        Optional<Car> first = carList.stream().filter(element -> element.getBrand().equals(brand))
                 .findAny();
         return first.get();
     }
 
     @PostMapping
     public boolean addCars(@RequestBody Car car){
-        return carManager.AddCar(car);
+        return carList.add(car);
     }
 
     @PutMapping
     public void updateCars(@RequestParam int index, @RequestBody Car car) {
-        carManager.carList.add(index, car);
+        carList.add(index, car);
     }
 
     @DeleteMapping
     public boolean deleteCars(@RequestParam int index) {
-        return carManager.carList.removeIf(element -> element.getId() == index);
+        return carList.removeIf(element -> element.getId() == index);
     }
 }
