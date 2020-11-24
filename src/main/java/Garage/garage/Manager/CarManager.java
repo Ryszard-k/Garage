@@ -3,9 +3,13 @@ package Garage.garage.Manager;
 import Garage.garage.Dao.CarRepo;
 import Garage.garage.Dao.Entity.Car;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Service
 public class CarManager {
@@ -17,10 +21,6 @@ public class CarManager {
         this.carRepo = carRepo;
     }
 
-  /*  public Optional<Car> findById(Long id){
-        return carRepo.findById(id);
-    }*/
-
     public Iterable<Car> findAll(){
         return carRepo.findAll();
     }
@@ -31,5 +31,11 @@ public class CarManager {
 
     public void deleteById(Long id){
         carRepo.deleteById(id);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void fillDB(){
+        save(new Car((long) 1,"BMW", "E36", "KR8TM32", "12E"));
+        save(new Car((long) 2, "Citroen", "Berlingo", "KR5ZJ22", "4J"));
     }
 }
