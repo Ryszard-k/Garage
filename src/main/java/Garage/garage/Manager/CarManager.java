@@ -8,8 +8,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 @Service
 public class CarManager {
@@ -23,6 +21,14 @@ public class CarManager {
 
     public Iterable<Car> findAll(){
         return carRepo.findAll();
+    }
+
+    public List<Car> findByBrand(String brand){
+        return carRepo.findByBrand(brand);
+    }
+    
+    public void updateModel(Long id, String model){
+        carRepo.updateModel(id, model);
     }
 
     public Car save(Car car){

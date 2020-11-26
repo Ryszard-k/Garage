@@ -5,6 +5,7 @@ import Garage.garage.Manager.CarManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,12 +25,15 @@ public class ApiCar {
         return carManager.findAll();
     }
 
-   /* @GetMapping
-    public Car getByBrand(@RequestParam String brand){
-        Optional<Car> first = carList.stream().filter(element -> element.getBrand().equals(brand))
-                .findAny();
-        return first.get();
-    }*/
+    @GetMapping
+    public List<Car> getByBrand(@RequestParam String brand){
+        return carManager.findByBrand(brand);
+    }
+
+    @PatchMapping
+    public void modifyModel(@RequestParam Long id, @RequestParam String model){
+        carManager.updateModel(id, model);
+    }
 
     @PostMapping
     public Car addCars(@RequestBody Car car){
