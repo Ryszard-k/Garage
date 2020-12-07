@@ -1,7 +1,7 @@
 package Garage.garage.GUI;
 
-import Garage.garage.Dao.CarRepo;
 import Garage.garage.Dao.Entity.Car;
+import Garage.garage.Manager.CarManager;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
@@ -9,25 +9,41 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 
-@Route()
+@Route("Grid")
 public class LoadGUI extends VerticalLayout {
 
-    private CarRepo carRepo;
     private final Grid<Car> carGrid;
+    private Set<Car> selectedCar;
+    private CarManager carManager;
 
     @Autowired
-    public LoadGUI(CarRepo carRepo) {
-        this.carRepo = carRepo;
+    public LoadGUI(CarManager carManager) {
         this.carGrid = new Grid<>(Car.class);
+        this.carManager = carManager;
 
         Button deleteCarsButton = new Button("Delete cars", new Icon(VaadinIcon.TRASH));
         deleteCarsButton.setIconAfterText(true);
+        deleteCarsButton.addClickListener(e -> {
+            for(Iterator<Car> iteratorCar = selectedCar.iterator(); iteratorCar.hasNext();){
+                Car car = iteratorCar.next();
+                carManager.deleteById(car.getId());
+            }
+ //           carGrid.getDataProvider().refreshAll();
+        });
 
-        add(carGrid);
-        add(deleteCarsButton);
+        Button addCarsButton = new Button("Add cars", new Icon(VaadinIcon.CAR));
+        deleteCarsButton.setIconAfterText(true);
+        deleteCarsButton.addClickListener(e -> {
+
+        });
+
+        add(carGrid, deleteCarsButton, addCarsButton);
         gridCustom();
         loadListOfCars();
         rowsSelect();
@@ -39,13 +55,14 @@ public class LoadGUI extends VerticalLayout {
     }
 
     private void loadListOfCars() {
-        carGrid.setItems((Collection<Car>) carRepo.findAll());
+        carGrid.setItems((Collection<Car>) carManager.findAll());
     }
 
     private void rowsSelect(){
         carGrid.setSelectionMode(Grid.SelectionMode.MULTI);
         carGrid.addSelectionListener(selectionData -> {
-            Set<Car> selectedCar = selectionData.getAllSelectedItems();
+            selectedCar = selectionData.getAllSelectedItems();
         });
     }
+
 }
