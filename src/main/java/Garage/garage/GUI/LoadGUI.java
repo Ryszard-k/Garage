@@ -1,7 +1,7 @@
 package Garage.garage.GUI;
 
-import Garage.garage.Dao.Entity.Car;
-import Garage.garage.Manager.CarManager;
+import Garage.garage.DAO.entity.Car;
+import Garage.garage.manager.CarManager;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
@@ -9,7 +9,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,12 +33,12 @@ public class LoadGUI extends VerticalLayout {
                 Car car = iteratorCar.next();
                 carManager.deleteById(car.getId());
             }
- //           carGrid.getDataProvider().refreshAll();
+            loadListOfCars();
         });
 
         Button addCarsButton = new Button("Add cars", new Icon(VaadinIcon.CAR));
-        deleteCarsButton.setIconAfterText(true);
-        deleteCarsButton.addClickListener(e -> {
+        addCarsButton.setIconAfterText(true);
+        addCarsButton.addClickListener(e -> {
 
         });
 

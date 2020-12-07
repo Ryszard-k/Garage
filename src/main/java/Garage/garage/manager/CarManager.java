@@ -1,7 +1,7 @@
-package Garage.garage.Manager;
+package Garage.garage.manager;
 
-import Garage.garage.Dao.CarRepo;
-import Garage.garage.Dao.Entity.Car;
+import Garage.garage.DAO.CarRepo;
+import Garage.garage.DAO.entity.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

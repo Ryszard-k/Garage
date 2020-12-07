@@ -1,12 +1,11 @@
 package Garage.garage.API;
 
-import Garage.garage.Dao.Entity.Car;
-import Garage.garage.Manager.CarManager;
+import Garage.garage.DAO.entity.Car;
+import Garage.garage.manager.CarManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")

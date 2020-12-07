@@ -1,4 +1,4 @@
-package Garage.garage.Dao.Entity;
+package Garage.garage.DAO.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
-package Garage.garage.Dao;
+package Garage.garage.DAO;
 
-import Garage.garage.Dao.Entity.Car;
+import Garage.garage.DAO.entity.Car;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
