@@ -4,27 +4,30 @@ import Garage.garage.DAO.entity.Car;
 import Garage.garage.manager.CarManager;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 @Route("Grid")
 public class LoadGUI extends VerticalLayout {
 
     private final Grid<Car> carGrid;
     private Set<Car> selectedCar;
-    private CarManager carManager;
+    private final CarManager carManager;
 
     @Autowired
     public LoadGUI(CarManager carManager) {
         this.carGrid = new Grid<>(Car.class);
         this.carManager = carManager;
+        carGrid.setColumns("id", "brand", "model", "parking", "plate");
 
         Button deleteCarsButton = new Button("Delete cars", new Icon(VaadinIcon.TRASH));
         deleteCarsButton.setIconAfterText(true);
@@ -34,23 +37,15 @@ public class LoadGUI extends VerticalLayout {
                 carManager.deleteById(car.getId());
             }
             loadListOfCars();
+            Notification notification = new Notification(
+                    "Cars deleted", 3000, Notification.Position.TOP_START);
+            notification.open();
         });
 
-        Button addCarsButton = new Button("Add cars", new Icon(VaadinIcon.CAR));
-        addCarsButton.setIconAfterText(true);
-        addCarsButton.addClickListener(e -> {
-
-        });
-
-        add(carGrid, deleteCarsButton, addCarsButton);
-        gridCustom();
+        add(carGrid, deleteCarsButton);
         loadListOfCars();
         rowsSelect();
-    }
-
-    private void gridCustom(){
-        carGrid.setColumnReorderingAllowed(true);
-        carGrid.setColumns("id", "brand", "model", "parking", "plate");
+        editGridRows();
     }
 
     private void loadListOfCars() {
@@ -62,6 +57,45 @@ public class LoadGUI extends VerticalLayout {
         carGrid.addSelectionListener(selectionData -> {
             selectedCar = selectionData.getAllSelectedItems();
         });
+    }
+
+    private void editGridRows(){
+        final Long[] idEdit = new Long[1];
+
+        Binder<Car> binder = new Binder<>(Car.class);
+        Editor<Car> editor = carGrid.getEditor();
+        editor.setBinder(binder);
+
+        TextField brandEdit = new TextField();
+        binder.bind(brandEdit, "brand");
+        carGrid.getColumnByKey("brand").setEditorComponent(brandEdit);
+
+        TextField modelEdit = new TextField();
+        binder.bind(modelEdit, "model");
+        carGrid.getColumnByKey("model").setEditorComponent(modelEdit);
+
+        carGrid.addItemDoubleClickListener(event -> {
+            carGrid.getEditor().editItem(event.getItem());
+            idEdit[0] = event.getItem().getId();
+     /*       if(carGrid.getEditor().getItem().getBrand() != null) {
+                carManager.updateBrand(idEdit[0], carGrid.getEditor().getItem().getBrand());
+            } else if(carGrid.getEditor().getItem().getModel() != null) {
+                carManager.updateModel(idEdit[0], );
+            }*/
+
+        });
+
+        binder.addValueChangeListener(event -> {
+            if(event.getValue().equals(brandEdit.getValue())) {
+                carManager.updateBrand(idEdit[0], brandEdit.getValue());
+            } else if(event.getValue().equals(modelEdit.getValue())) {
+                carManager.updateModel(idEdit[0], modelEdit.getValue());
+            }
+            carGrid.getEditor().refresh();
+        });
+
+        carGrid.getElement().addEventListener("keyup", event -> editor.cancel())
+                .setFilter("event.key === 'Escape' || event.key === 'Esc'");
     }
 
 }
