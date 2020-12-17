@@ -74,15 +74,17 @@ public class LoadGUI extends VerticalLayout {
         binder.bind(modelEdit, "model");
         carGrid.getColumnByKey("model").setEditorComponent(modelEdit);
 
+        TextField plateEdit = new TextField();
+        binder.bind(plateEdit, "plate");
+        carGrid.getColumnByKey("plate").setEditorComponent(plateEdit);
+
+        TextField parkingEdit = new TextField();
+        binder.bind(parkingEdit, "parking");
+        carGrid.getColumnByKey("parking").setEditorComponent(parkingEdit);
+
         carGrid.addItemDoubleClickListener(event -> {
             carGrid.getEditor().editItem(event.getItem());
             idEdit[0] = event.getItem().getId();
-     /*       if(carGrid.getEditor().getItem().getBrand() != null) {
-                carManager.updateBrand(idEdit[0], carGrid.getEditor().getItem().getBrand());
-            } else if(carGrid.getEditor().getItem().getModel() != null) {
-                carManager.updateModel(idEdit[0], );
-            }*/
-
         });
 
         binder.addValueChangeListener(event -> {
@@ -90,6 +92,10 @@ public class LoadGUI extends VerticalLayout {
                 carManager.updateBrand(idEdit[0], brandEdit.getValue());
             } else if(event.getValue().equals(modelEdit.getValue())) {
                 carManager.updateModel(idEdit[0], modelEdit.getValue());
+            } else if(event.getValue().equals(plateEdit.getValue())) {
+                carManager.updatePlate(idEdit[0], plateEdit.getValue());}
+            else if(event.getValue().equals(parkingEdit.getValue())) {
+                carManager.updateParking(idEdit[0], parkingEdit.getValue());
             }
             carGrid.getEditor().refresh();
         });

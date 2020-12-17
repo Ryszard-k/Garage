@@ -25,4 +25,14 @@ public interface CarRepo extends CrudRepository<Car, Long> {
     @Transactional
     @Query ("UPDATE Car c SET c.brand = :brand WHERE c.id = :id")
     void updateBrand (@Param(value = "id") Long id, @Param(value = "brand") String brand);
+
+    @Modifying
+    @Transactional
+    @Query ("UPDATE Car c SET c.plate = :plate WHERE c.id = :id")
+    void updatePlate (@Param(value = "id") Long id, @Param(value = "plate") String plate);
+
+    @Modifying
+    @Transactional
+    @Query ("UPDATE Car c SET c.parking = :parking WHERE c.id = :id")
+    void updateParking (@Param(value = "id") Long id, @Param(value = "parking") String parking);
 }

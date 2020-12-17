@@ -35,6 +35,14 @@ public class CarManager {
         carRepo.updateBrand(id, brand);
     }
 
+    public void updatePlate(Long id, String plate){
+        carRepo.updatePlate(id, plate);
+    }
+
+    public void updateParking(Long id, String parking){
+        carRepo.updateParking(id, parking);
+    }
+
     public Car save(Car car){
         return carRepo.save(car);
     }
