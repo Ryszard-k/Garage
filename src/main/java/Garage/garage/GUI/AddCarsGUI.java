@@ -4,13 +4,13 @@ import Garage.garage.DAO.entity.Car;
 import Garage.garage.manager.CarManager;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("AddGUI")
-public class AddCarsGUI extends HorizontalLayout {
+@Route("AddCars")
+public class AddCarsGUI extends VerticalLayout {
 
     private CarManager carManager;
 
@@ -18,11 +18,11 @@ public class AddCarsGUI extends HorizontalLayout {
     public AddCarsGUI(CarManager carManager) {
         this.carManager = carManager;
 
-        TextField addBrand = new TextField("Add brand");
-        TextField addModel = new TextField("Add model");
-        TextField addPlate = new TextField("Add plate");
-        TextField addParking = new TextField("Add parking");
-        Button addCars = new Button("Add cars");
+        TextField addBrand = new TextField("Brand");
+        TextField addModel = new TextField("Model");
+        TextField addPlate = new TextField("Plate");
+        TextField addParking = new TextField("Parking");
+        Button addCars = new Button("Add car");
 
         addCars.addClickListener(e ->{
             Car newCar = new Car();
