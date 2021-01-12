@@ -1,7 +1,7 @@
 package Garage.garage.API;
 
 import Garage.garage.DAO.entity.Car;
-import Garage.garage.manager.CarManager;
+import Garage.garage.Manager.CarManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +34,8 @@ public class ApiCar {
     }
 
     @PostMapping
-    public Car addCars(@RequestBody Car car){
-        return carManager.save(car);
+    public void addCars(@RequestBody Car car){
+        carManager.save(car);
     }
 
     @PutMapping

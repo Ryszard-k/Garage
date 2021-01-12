@@ -2,7 +2,7 @@ package Garage.garage.Security;
 
 import Garage.garage.DAO.UserRepo;
 import Garage.garage.DAO.entity.User;
-import Garage.garage.manager.UserDetailsServiceImplement;
+import Garage.garage.Manager.UserDetailsServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
@@ -57,6 +56,5 @@ public class Config extends WebSecurityConfigurerAdapter {
     public void fillUserDB(){
         User user1 = new User("User1", passwordEncoder().encode("User1Pass"), "User");
         userRepo.save(user1);
-     //   userRepo.save(new User("User1", passwordEncoder().encode("User1Pass"), "User"));
     }
 }

@@ -19,7 +19,7 @@ public interface CarRepo extends CrudRepository<Car, Long> {
     @Modifying
     @Transactional
     @Query ("UPDATE Car c SET c.model = :model WHERE c.id = :id")
-    void updateModel (@Param(value = "id") Long id, @Param(value = "model") String model);
+    Car updateModel (@Param(value = "id") Long id, @Param(value = "model") String model);
 
     @Modifying
     @Transactional

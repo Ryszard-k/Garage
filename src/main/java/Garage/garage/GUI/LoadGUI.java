@@ -1,7 +1,7 @@
 package Garage.garage.GUI;
 
 import Garage.garage.DAO.entity.Car;
-import Garage.garage.manager.CarManager;
+import Garage.garage.Manager.CarManager;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.editor.Editor;
