@@ -2,20 +2,17 @@ package Garage.garage.Manager;
 
 import Garage.garage.DAO.CarRepo;
 import Garage.garage.DAO.entity.Car;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,16 +41,20 @@ class CarManagerTest {
         when(carRepo.findAll()).thenReturn(carList());
 
         Iterable<Car> carList2 = carManager.findAll();
-
-        carList2.equals(carList());
+        int iterations = 0;
+        for (Car car: carList2) {
+            iterations++;
+        }
+        assertEquals(2, iterations);
     }
 
     @Test
     void findByBrand() {
         when(carRepo.findByBrand("Audi")).thenReturn(carList().subList(0,1));
 
-        carManager.findByBrand("Audi").
-                equals(new Car((long)1,"Audi", "A1", "KRK3465", "1A"));
+        List<Car> returned = carManager.findByBrand("Audi");
+
+        assertEquals("Audi", returned.get(0).getBrand());
     }
 
     @Test
@@ -65,7 +66,7 @@ class CarManagerTest {
 
         verify(carRepo, times(1)).findById(updated.getId());
         verify(carRepo, times(1)).updateModel(updated.getId(), updated.getModel());
-        returned.equals(updated);
+        assertEquals(updated.getModel(), returned.get().getModel());
     }
 
     @Test
@@ -77,7 +78,7 @@ class CarManagerTest {
 
         verify(carRepo, times(1)).findById(updated.getId());
         verify(carRepo, times(1)).updateBrand(updated.getId(), updated.getBrand());
-        returned.equals(updated);
+        assertEquals(updated.getBrand(), returned.get().getBrand());
     }
 
     @Test
@@ -89,7 +90,7 @@ class CarManagerTest {
 
         verify(carRepo, times(1)).findById(updated.getId());
         verify(carRepo, times(1)).updatePlate(updated.getId(), updated.getPlate());
-        returned.equals(updated);
+        assertEquals(updated.getPlate(), returned.get().getPlate());
     }
 
     @Test
@@ -101,7 +102,7 @@ class CarManagerTest {
 
         verify(carRepo, times(1)).findById(updated.getId());
         verify(carRepo, times(1)).updateParking(updated.getId(), updated.getParking());
-        returned.equals(updated);
+        assertEquals(updated.getParking(), returned.get().getParking());
     }
 
     @Test
@@ -112,7 +113,7 @@ class CarManagerTest {
         Car returned = carManager.save(newCar);
 
         verify(carRepo, times(1)).save(newCar);
-        returned.equals(newCar);
+        assertEquals(newCar, returned);
     }
 
     @Test
@@ -124,6 +125,9 @@ class CarManagerTest {
 
         verify(carRepo, times(1)).findById(deleteCar.getId());
         verify(carRepo, times(1)).deleteById(deleteCar.getId());
-        returned.equals(deleteCar);
+        assertEquals(deleteCar.getId(), returned.get().getId());
+        assertEquals(deleteCar.getModel(), returned.get().getModel());
+        assertEquals(deleteCar.getParking(), returned.get().getParking());
+        assertEquals(deleteCar.getBrand(), returned.get().getBrand());
     }
 }
