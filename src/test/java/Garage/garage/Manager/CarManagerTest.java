@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 class CarManagerTest {
-
+/*
     @Mock
     private CarRepo carRepo;
 
@@ -86,11 +86,11 @@ class CarManagerTest {
         Car updated = new Car((long)2,"Ford", "Focus", "GAZ1", "11B");
         when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
 
-        Optional<Car> returned = carManager.updatePlate(updated.getId(), updated.getPlate());
+        Optional<Car> returned = carManager.updatePlate(updated.getId(), updated.getPrize());
 
         verify(carRepo, times(1)).findById(updated.getId());
-        verify(carRepo, times(1)).updatePlate(updated.getId(), updated.getPlate());
-        assertEquals(updated.getPlate(), returned.get().getPlate());
+        verify(carRepo, times(1)).updatePlate(updated.getId(), updated.getPrize());
+        assertEquals(updated.getPrize(), returned.get().getPrize());
     }
 
     @Test
@@ -129,5 +129,5 @@ class CarManagerTest {
         assertEquals(deleteCar.getModel(), returned.get().getModel());
         assertEquals(deleteCar.getParking(), returned.get().getParking());
         assertEquals(deleteCar.getBrand(), returned.get().getBrand());
-    }
+    }*/
 }

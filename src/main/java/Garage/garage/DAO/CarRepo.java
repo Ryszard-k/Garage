@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -28,11 +29,16 @@ public interface CarRepo extends CrudRepository<Car, Long> {
 
     @Modifying
     @Transactional
-    @Query ("UPDATE Car c SET c.plate = :plate WHERE c.id = :id")
-    void updatePlate (@Param(value = "id") Long id, @Param(value = "plate") String plate);
+    @Query ("UPDATE Car c SET c.prize = :prize WHERE c.id = :id")
+    void updatePrize (@Param(value = "id") Long id, @Param(value = "prize") double prize);
 
     @Modifying
     @Transactional
-    @Query ("UPDATE Car c SET c.parking = :parking WHERE c.id = :id")
-    void updateParking (@Param(value = "id") Long id, @Param(value = "parking") String parking);
+    @Query ("UPDATE Car c SET c.quantity = :quantity WHERE c.id = :id")
+    void updateQuantity (@Param(value = "id") Long id, @Param(value = "quantity") double quantity);
+
+    @Modifying
+    @Transactional
+    @Query ("UPDATE Car c SET c.manufactureYear = :manufactureYear WHERE c.id = :id")
+    void updateManufactureYear (@Param(value = "id") Long id, @Param(value = "manufactureYear") LocalDate manufactureYear);
 }

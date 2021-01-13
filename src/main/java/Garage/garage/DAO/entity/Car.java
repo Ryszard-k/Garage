@@ -1,10 +1,7 @@
 package Garage.garage.DAO.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import javax.persistence.*;
+import java.time.LocalDate;
 @Entity
 public class Car {
 
@@ -13,18 +10,20 @@ public class Car {
     private Long id;
     private String brand;
     private String model;
-    private String plate;
-    private String parking;
+    private double prize;
+    private double quantity;
+    private LocalDate manufactureYear;
 
     public Car() {
     }
 
-    public Car(Long id, String brand, String model, String plate, String parking) {
+    public Car(Long id, String brand, String model, double prize, double quantity, LocalDate manufactureYear) {
         this.id = id;
         this.brand = brand;
         this.model = model;
-        this.plate = plate;
-        this.parking = parking;
+        this.prize = prize;
+        this.quantity = quantity;
+        this.manufactureYear = manufactureYear;
     }
 
     public Long getId() {
@@ -51,19 +50,27 @@ public class Car {
         this.model = model;
     }
 
-    public String getPlate() {
-        return plate;
+    public double getPrize() {
+        return prize;
     }
 
-    public void setPlate(String plate) {
-        this.plate = plate;
+    public void setPrize(Double prize) {
+        this.prize = prize;
     }
 
-    public String getParking() {
-        return parking;
+    public double getQuantity() {
+        return quantity;
     }
 
-    public void setParking(String parking) {
-        this.parking = parking;
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public LocalDate getManufactureYear() {
+        return manufactureYear;
+    }
+
+    public void setManufactureYear(LocalDate manufactureYear) {
+        this.manufactureYear = manufactureYear;
     }
 }

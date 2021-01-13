@@ -27,7 +27,7 @@ public class LoadGUI extends VerticalLayout {
     public LoadGUI(CarManager carManager) {
         this.carGrid = new Grid<>(Car.class);
         this.carManager = carManager;
-        carGrid.setColumns("id", "brand", "model", "parking", "plate");
+        carGrid.setColumns("id", "brand", "model", "prize", "quantity", "manufactureYear");
 
         Button deleteCarsButton = new Button("Delete cars", new Icon(VaadinIcon.TRASH));
         deleteCarsButton.setIconAfterText(true);
@@ -45,7 +45,7 @@ public class LoadGUI extends VerticalLayout {
         add(carGrid, deleteCarsButton);
         loadListOfCars();
         rowsSelect();
-        editGridRows();
+       // editGridRows();
     }
 
     private void loadListOfCars() {
@@ -58,7 +58,7 @@ public class LoadGUI extends VerticalLayout {
             selectedCar = selectionData.getAllSelectedItems();
         });
     }
-
+/*
     private void editGridRows(){
         final Long[] idEdit = new Long[1];
 
@@ -93,7 +93,7 @@ public class LoadGUI extends VerticalLayout {
             } else if(event.getValue().equals(modelEdit.getValue())) {
                 carManager.updateModel(idEdit[0], modelEdit.getValue());
             } else if(event.getValue().equals(plateEdit.getValue())) {
-                carManager.updatePlate(idEdit[0], plateEdit.getValue());}
+             /*   carManager.updatePlate(idEdit[0], plateEdit.getValue());}
             else if(event.getValue().equals(parkingEdit.getValue())) {
                 carManager.updateParking(idEdit[0], parkingEdit.getValue());
             }
@@ -103,5 +103,5 @@ public class LoadGUI extends VerticalLayout {
         carGrid.getElement().addEventListener("keyup", event -> editor.cancel())
                 .setFilter("event.key === 'Escape' || event.key === 'Esc'");
     }
-
+*/
 }
