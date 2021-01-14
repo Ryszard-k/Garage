@@ -3,12 +3,15 @@ package Garage.garage.GUI;
 import Garage.garage.DAO.entity.Car;
 import Garage.garage.Manager.CarManager;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
@@ -27,7 +30,7 @@ public class LoadGUI extends VerticalLayout {
     public LoadGUI(CarManager carManager) {
         this.carGrid = new Grid<>(Car.class);
         this.carManager = carManager;
-        carGrid.setColumns("id", "brand", "model", "prize", "quantity", "manufactureYear");
+        carGrid.setColumns("id", "brand", "model", "prize", "manufactureYear");
 
         Button deleteCarsButton = new Button("Delete cars", new Icon(VaadinIcon.TRASH));
         deleteCarsButton.setIconAfterText(true);
@@ -45,7 +48,7 @@ public class LoadGUI extends VerticalLayout {
         add(carGrid, deleteCarsButton);
         loadListOfCars();
         rowsSelect();
-       // editGridRows();
+        editGridRows();
     }
 
     private void loadListOfCars() {
@@ -58,7 +61,7 @@ public class LoadGUI extends VerticalLayout {
             selectedCar = selectionData.getAllSelectedItems();
         });
     }
-/*
+
     private void editGridRows(){
         final Long[] idEdit = new Long[1];
 
@@ -74,13 +77,13 @@ public class LoadGUI extends VerticalLayout {
         binder.bind(modelEdit, "model");
         carGrid.getColumnByKey("model").setEditorComponent(modelEdit);
 
-        TextField plateEdit = new TextField();
-        binder.bind(plateEdit, "plate");
-        carGrid.getColumnByKey("plate").setEditorComponent(plateEdit);
+        IntegerField prizeEdit = new IntegerField();
+        binder.bind(prizeEdit, "prize");
+        carGrid.getColumnByKey("prize").setEditorComponent(prizeEdit);
 
-        TextField parkingEdit = new TextField();
-        binder.bind(parkingEdit, "parking");
-        carGrid.getColumnByKey("parking").setEditorComponent(parkingEdit);
+        DatePicker manufactureYearEdit = new DatePicker();
+        binder.bind(manufactureYearEdit, "manufactureYear");
+        carGrid.getColumnByKey("manufactureYear").setEditorComponent(manufactureYearEdit);
 
         carGrid.addItemDoubleClickListener(event -> {
             carGrid.getEditor().editItem(event.getItem());
@@ -92,10 +95,10 @@ public class LoadGUI extends VerticalLayout {
                 carManager.updateBrand(idEdit[0], brandEdit.getValue());
             } else if(event.getValue().equals(modelEdit.getValue())) {
                 carManager.updateModel(idEdit[0], modelEdit.getValue());
-            } else if(event.getValue().equals(plateEdit.getValue())) {
-             /*   carManager.updatePlate(idEdit[0], plateEdit.getValue());}
-            else if(event.getValue().equals(parkingEdit.getValue())) {
-                carManager.updateParking(idEdit[0], parkingEdit.getValue());
+            } else if(event.getValue().equals(prizeEdit.getValue())) {
+                carManager.updatePrize(idEdit[0], prizeEdit.getValue());
+            } else if(event.getValue().equals(manufactureYearEdit.getValue())) {
+                carManager.updateManufactureYear(idEdit[0], manufactureYearEdit.getValue());
             }
             carGrid.getEditor().refresh();
         });
@@ -103,5 +106,5 @@ public class LoadGUI extends VerticalLayout {
         carGrid.getElement().addEventListener("keyup", event -> editor.cancel())
                 .setFilter("event.key === 'Escape' || event.key === 'Esc'");
     }
-*/
+
 }

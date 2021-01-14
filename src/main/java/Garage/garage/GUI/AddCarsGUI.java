@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -22,9 +23,8 @@ public class AddCarsGUI extends VerticalLayout {
 
         TextField addBrand = new TextField("Brand");
         TextField addModel = new TextField("Model");
-        NumberField addPrize = new NumberField("Prize");
-        NumberField addQuantity = new NumberField("Quantity");
-        DatePicker addManufactureYear = new DatePicker("Manufacture year");
+        IntegerField addPrize = new IntegerField("Prize");
+        DatePicker addManufactureYear = new DatePicker("Manufacture year (dd.mm.yyyy)");
         addManufactureYear.setAutoOpen(false);
         Button addCars = new Button("Add car");
 
@@ -33,7 +33,6 @@ public class AddCarsGUI extends VerticalLayout {
             newCar.setBrand(addBrand.getValue());
             newCar.setModel(addModel.getValue());
             newCar.setPrize(addPrize.getValue());
-            newCar.setQuantity(addQuantity.getValue());
             newCar.setManufactureYear(addManufactureYear.getValue());
             carManager.save(newCar);
 
@@ -41,9 +40,9 @@ public class AddCarsGUI extends VerticalLayout {
                     "Car added", 3000, Notification.Position.TOP_START);
             notification.open();
 
-            addBrand.clear(); addModel.clear(); addPrize.clear(); addQuantity.clear(); addManufactureYear.clear();
+            addBrand.clear(); addModel.clear(); addPrize.clear(); addManufactureYear.clear();
         });
 
-        add(addBrand, addModel, addPrize, addQuantity, addManufactureYear, addCars);
+        add(addBrand, addModel, addPrize, addManufactureYear, addCars);
     }
 }

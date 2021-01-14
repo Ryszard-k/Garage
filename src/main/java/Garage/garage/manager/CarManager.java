@@ -7,6 +7,9 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +22,6 @@ public class CarManager {
     public CarManager(CarRepo carRepo) {
         this.carRepo = carRepo;
     }
-
 
     public Iterable<Car> findAll(){
         return carRepo.findAll();
@@ -41,15 +43,15 @@ public class CarManager {
         return updated;
     }
 
-    public Optional<Car> updatePlate(Long id, String plate){
+    public Optional<Car> updatePrize(Long id, int prize){
         Optional<Car> updated = carRepo.findById((Long) id);
-        carRepo.updatePlate(id, plate);
+        carRepo.updatePrize(id, prize);
         return updated;
     }
 
-    public Optional<Car> updateParking(Long id, String parking){
+    public Optional<Car> updateManufactureYear(Long id, LocalDate manufactureYear){
         Optional<Car> updated = carRepo.findById((Long) id);
-        carRepo.updateParking(id, parking);
+        carRepo.updateManufactureYear(id, manufactureYear);
         return updated;
     }
 
@@ -66,7 +68,7 @@ public class CarManager {
 
     @EventListener(ApplicationReadyEvent.class)
     public void fillDB(){
-        save(new Car((long) 1,"BMW", "E36", "KR8TM32", "12E"));
-        save(new Car((long) 2, "Citroen", "Berlingo", "KR5ZJ22", "4J"));
+        save(new Car((long) 1,"BMW", "E36", 30000, LocalDate.parse("2000-02-23")));
+        save(new Car((long) 2,"Citroen", "Berlingo", 22000, LocalDate.parse("1997-05-20")));
     }
 }
