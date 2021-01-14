@@ -24,7 +24,8 @@ public class AddCarsGUI extends VerticalLayout {
         TextField addBrand = new TextField("Brand");
         TextField addModel = new TextField("Model");
         IntegerField addPrize = new IntegerField("Prize");
-        DatePicker addManufactureYear = new DatePicker("Manufacture year (dd.mm.yyyy)");
+        DatePicker addManufactureYear = new DatePicker("Manufacture year");
+        addManufactureYear.setPlaceholder("dd.mm.yyyy");
         addManufactureYear.setAutoOpen(false);
         Button addCars = new Button("Add car");
 

@@ -36,4 +36,8 @@ public interface CarRepo extends CrudRepository<Car, Long> {
     @Transactional
     @Query ("UPDATE Car c SET c.manufactureYear = :manufactureYear WHERE c.id = :id")
     void updateManufactureYear (@Param(value = "id") Long id, @Param(value = "manufactureYear") LocalDate manufactureYear);
+
+    @Query("select c from Car c where lower(c.model) like lower(concat('%', :searchModel, '%')) " +
+            "or lower(c.model) like lower(concat('%', :searchModel, '%'))")
+    List<Car> searchModel(@Param("searchModel") String searchModel);
 }
