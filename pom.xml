@@ -16,7 +16,6 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<vaadin.version>14.4.4</vaadin.version>
 	</properties>
 
 	<dependencies>
@@ -47,14 +46,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>
-					vaadin-spring-boot-starter
-				</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -97,18 +88,6 @@
 
 	</dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-bom</artifactId>
-				<version>${vaadin.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<build>
 		<plugins>
 			<!-- The Spring Boot Maven plugin for easy
@@ -118,26 +97,6 @@
 				<artifactId>
 					spring-boot-maven-plugin
 				</artifactId>
-			</plugin>
-
-			<!--
-                Takes care of synchronizing java
-                dependencies and imports in package.json and
-                main.js files. It also creates
-                webpack.config.js if does not exist yet.
-            -->
-			<plugin>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>${vaadin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-frontend</goal>
-							<goal>build-frontend</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

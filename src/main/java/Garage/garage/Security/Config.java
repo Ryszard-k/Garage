@@ -36,12 +36,12 @@ public class Config extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/Grid").hasAuthority("User")
-                .antMatchers("/AddCars").hasAuthority("User")
+                .antMatchers("/api").hasAuthority("User")
+                .antMatchers("/api").hasAuthority("User")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                .defaultSuccessUrl("/Grid", true)
+                .defaultSuccessUrl("/api/Cars", true)
                 .and()
                 .logout().permitAll()
                 .deleteCookies("JSESSIONID");
