@@ -36,12 +36,11 @@ public class Config extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/employees").hasAuthority("User")
-                .antMatchers("/employees").hasAuthority("User")
+                .antMatchers("/employees/cars").hasAuthority("User")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                .defaultSuccessUrl("/employees", true)
+                .defaultSuccessUrl("/employees/cars", true)
                 .and()
                 .logout().permitAll()
                 .deleteCookies("JSESSIONID");

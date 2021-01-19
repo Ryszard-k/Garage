@@ -13,16 +13,24 @@ import java.util.List;
 @RequestMapping("/employees/cars")
 public class EmployeesController {
 
-    private CarManager carManager;
+    private final CarManager carManager;
 
    @Autowired
     public EmployeesController(CarManager carManager) {
         this.carManager = carManager;
     }
 
-    @GetMapping
-    public Iterable<Car> getCars(){
-        return carManager.findAll();
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<Car>> getCars(){
+       Iterable<Car> foundCars = carManager.findAll();
+        int iterations = 0;
+        for (Car car: foundCars) {
+            iterations++;
+        }
+        if(iterations == 0){
+            return new ResponseEntity("Repository is empty!", HttpStatus.NOT_FOUND);
+        } else
+            return new ResponseEntity<>(foundCars, HttpStatus.OK);
     }
 
     @GetMapping("/{brand}")
@@ -32,7 +40,7 @@ public class EmployeesController {
        if(foundCars.isEmpty()){
            return new ResponseEntity("Bad brand", HttpStatus.BAD_REQUEST);
        } else
-       return new ResponseEntity<List<Car>>(foundCars, HttpStatus.OK);
+       return new ResponseEntity<>(foundCars, HttpStatus.OK);
     }
 
     @PatchMapping("/employees/{id}")
