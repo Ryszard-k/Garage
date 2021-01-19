@@ -36,12 +36,12 @@ public class Config extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api").hasAuthority("User")
-                .antMatchers("/api").hasAuthority("User")
+                .antMatchers("/employees").hasAuthority("User")
+                .antMatchers("/employees").hasAuthority("User")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                .defaultSuccessUrl("/api/Cars", true)
+                .defaultSuccessUrl("/employees", true)
                 .and()
                 .logout().permitAll()
                 .deleteCookies("JSESSIONID");
@@ -54,7 +54,7 @@ public class Config extends WebSecurityConfigurerAdapter {
 
     @EventListener(ApplicationReadyEvent.class)
     public void fillUserDB(){
-        User user1 = new User("User1", passwordEncoder().encode("User1Pass"), "User");
+        User user1 = new User("User1", passwordEncoder().encode("User1"), "User");
         userRepo.save(user1);
     }
 }

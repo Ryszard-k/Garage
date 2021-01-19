@@ -7,9 +7,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,9 +41,9 @@ public class CarManager {
         return updated;
     }
 
-    public Optional<Car> updatePrize(Long id, int prize){
+    public Optional<Car> updateCost(Long id, int cost){
         Optional<Car> updated = carRepo.findById((Long) id);
-        carRepo.updatePrize(id, prize);
+        carRepo.updateCost(id, cost);
         return updated;
     }
 
