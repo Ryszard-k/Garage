@@ -10,17 +10,17 @@ public class Car {
     private Long id;
     private String brand;
     private String model;
-    private int prize;
+    private int cost;
     private LocalDate manufactureYear;
 
     public Car() {
     }
 
-    public Car(Long id, String brand, String model, int prize, LocalDate manufactureYear) {
+    public Car(Long id, String brand, String model, int cost, LocalDate manufactureYear) {
         this.id = id;
         this.brand = brand;
         this.model = model;
-        this.prize = prize;
+        this.cost = cost;
         this.manufactureYear = manufactureYear;
     }
 
@@ -48,12 +48,12 @@ public class Car {
         this.model = model;
     }
 
-    public int getPrize() {
-        return prize;
+    public int getCost() {
+        return cost;
     }
 
-    public void setPrize(int prize) {
-        this.prize = prize;
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public LocalDate getManufactureYear() {

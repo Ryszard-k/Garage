@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 class CarManagerTest {
-/*
+
     @Mock
     private CarRepo carRepo;
 
@@ -31,8 +32,8 @@ class CarManagerTest {
 
     private List<Car> carList(){
         List<Car> cars = new ArrayList<>();
-        cars.add(new Car((long)1,"Audi", "A1", "KRK3465", "1A"));
-        cars.add(new Car((long)2,"Ford", "Mustang", "GAZ1", "11B"));
+        cars.add(new Car((long) 1,"BMW", "E36", 30000, LocalDate.parse("2000-02-23")));
+        cars.add(new Car((long) 2,"Citroen", "Berlingo", 22000, LocalDate.parse("1997-05-20")));
         return  cars;
     }
 
@@ -50,16 +51,16 @@ class CarManagerTest {
 
     @Test
     void findByBrand() {
-        when(carRepo.findByBrand("Audi")).thenReturn(carList().subList(0,1));
+        when(carRepo.findByBrand("BMW")).thenReturn(carList().subList(0,1));
 
-        List<Car> returned = carManager.findByBrand("Audi");
+        List<Car> returned = carManager.findByBrand("BMW");
 
-        assertEquals("Audi", returned.get(0).getBrand());
+        assertEquals("BMW", returned.get(0).getBrand());
     }
 
     @Test
     void updateModel() {
-        Car updated = new Car((long)2,"Ford", "Focus", "GAZ1", "11B");
+        Car updated = new Car((long)2,"Ford", "Focus", 15000, LocalDate.parse("2010-01-21"));
         when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
 
         Optional<Car> returned = carManager.updateModel(updated.getId(), updated.getModel());
@@ -71,7 +72,7 @@ class CarManagerTest {
 
     @Test
     void updateBrand() {
-        Car updated = new Car((long)2,"BMW", "Focus", "GAZ1", "11B");
+        Car updated = new Car((long)2,"Audi", "Focus", 15000, LocalDate.parse("2010-01-21"));
         when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
 
         Optional<Car> returned = carManager.updateBrand(updated.getId(), updated.getBrand());
@@ -82,32 +83,32 @@ class CarManagerTest {
     }
 
     @Test
-    void updatePlate() {
-        Car updated = new Car((long)2,"Ford", "Focus", "GAZ1", "11B");
+    void updateCost() {
+        Car updated = new Car((long)2,"Ford", "Focus", 50000, LocalDate.parse("2010-01-21"));
         when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
 
-        Optional<Car> returned = carManager.updatePlate(updated.getId(), updated.getPrize());
+        Optional<Car> returned = carManager.updateCost(updated.getId(), updated.getCost());
 
         verify(carRepo, times(1)).findById(updated.getId());
-        verify(carRepo, times(1)).updatePlate(updated.getId(), updated.getPrize());
-        assertEquals(updated.getPrize(), returned.get().getPrize());
+        verify(carRepo, times(1)).updateCost(updated.getId(), updated.getCost());
+        assertEquals(updated.getCost(), returned.get().getCost());
     }
 
     @Test
-    void updateParking() {
-        Car updated = new Car((long)2,"Ford", "Focus", "GAZ1", "11B");
+    void updateManufactureYear() {
+        Car updated = new Car((long)2,"Ford", "Focus", 50000, LocalDate.parse("2011-11-21"));
         when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
 
-        Optional<Car> returned = carManager.updateParking(updated.getId(), updated.getParking());
+        Optional<Car> returned = carManager.updateManufactureYear(updated.getId(), updated.getManufactureYear());
 
         verify(carRepo, times(1)).findById(updated.getId());
-        verify(carRepo, times(1)).updateParking(updated.getId(), updated.getParking());
-        assertEquals(updated.getParking(), returned.get().getParking());
+        verify(carRepo, times(1)).updateManufactureYear(updated.getId(), updated.getManufactureYear());
+        assertEquals(updated.getManufactureYear(), returned.get().getManufactureYear());
     }
 
     @Test
     void save() {
-        Car newCar = new Car((long)3,"BMW", "E36", "WW33465", "11B");
+        Car newCar = new Car((long)3,"Chevrolet", "Cruze", 56000, LocalDate.parse("2010-03-25"));
         when(carRepo.save(newCar)).thenReturn(newCar);
 
         Car returned = carManager.save(newCar);
@@ -118,7 +119,7 @@ class CarManagerTest {
 
     @Test
     void deleteById() {
-        Car deleteCar = new Car((long)1,"Audi", "A1", "KRK3465", "1A");
+        Car deleteCar = new Car((long)1,"BMW", "E36", 30000, LocalDate.parse("2000-02-23"));
         when(carRepo.findById(deleteCar.getId())).thenReturn(java.util.Optional.of(deleteCar));
 
         Optional<Car> returned = carManager.deleteById(deleteCar.getId());
@@ -127,7 +128,8 @@ class CarManagerTest {
         verify(carRepo, times(1)).deleteById(deleteCar.getId());
         assertEquals(deleteCar.getId(), returned.get().getId());
         assertEquals(deleteCar.getModel(), returned.get().getModel());
-        assertEquals(deleteCar.getParking(), returned.get().getParking());
+        assertEquals(deleteCar.getCost(), returned.get().getCost());
         assertEquals(deleteCar.getBrand(), returned.get().getBrand());
-    }*/
+        assertEquals(deleteCar.getManufactureYear(), returned.get().getManufactureYear());
+    }
 }
