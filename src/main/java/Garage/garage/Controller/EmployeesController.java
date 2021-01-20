@@ -35,7 +35,6 @@ public class EmployeesController {
     }
 
     @GetMapping("/{brand}")
-    @ResponseBody
     public ResponseEntity<List<Car>> getByBrand(@PathVariable String brand){
        List<Car>foundCars = carManager.findByBrand(brand);
        if(foundCars.isEmpty()){
@@ -44,9 +43,14 @@ public class EmployeesController {
        return new ResponseEntity<>(foundCars, HttpStatus.OK);
     }
 
-    @PatchMapping("/employees/{id}")
-    public void modifyModel(@RequestParam Long id, @RequestParam String model){
-        carManager.updateModel(id, model);
+    @PatchMapping("/{id}")
+    public ResponseEntity modifyModel(@PathVariable Long id, @RequestBody String model){
+        Optional<Car> foundCar = carManager.findById(id);
+        if (foundCar.isPresent()) {
+            carManager.updateModel(id, model);
+        } else
+            return new ResponseEntity("Not found car to update!", HttpStatus.NOT_FOUND);
+        return null;
     }
 
     @PostMapping
