@@ -59,6 +59,19 @@ class CarManagerTest {
     }
 
     @Test
+    void findById() {
+        when(carRepo.findById(1L))
+                .thenReturn(Optional.of(new Car((long) 1, "BMW", "E36", 30000, LocalDate.parse("2000-02-23"))));
+
+        Optional<Car> returned = carManager.findById(1L);
+
+        assertEquals("BMW", returned.get().getBrand());
+        assertEquals("E36", returned.get().getModel());
+        assertEquals(30000, returned.get().getCost());
+        assertEquals(LocalDate.parse("2000-02-23"), returned.get().getManufactureYear());
+    }
+
+    @Test
     void updateModel() {
         Car updated = new Car((long)2,"Ford", "Focus", 15000, LocalDate.parse("2010-01-21"));
         when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));

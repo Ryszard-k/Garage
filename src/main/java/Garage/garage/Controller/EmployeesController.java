@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees/cars")
@@ -20,7 +21,7 @@ public class EmployeesController {
         this.carManager = carManager;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Iterable<Car>> getCars(){
        Iterable<Car> foundCars = carManager.findAll();
         int iterations = 0;
@@ -58,8 +59,13 @@ public class EmployeesController {
         carManager.save(car);
     }
 
-    @DeleteMapping("/employees/{id}")
-    public void deleteCars(@RequestParam Long id) {
-        carManager.deleteById(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteCars(@PathVariable Long id) {
+        Optional<Car> foundCar = carManager.findById(id);
+        if (foundCar.isPresent()) {
+            carManager.deleteById(id);
+        } else
+        return new ResponseEntity("Not found car to delete!", HttpStatus.NOT_FOUND);
+        return null;
     }
 }

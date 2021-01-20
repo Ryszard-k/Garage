@@ -28,6 +28,10 @@ public class CarManager {
     public List<Car> findByBrand(String brand){
         return carRepo.findByBrand(brand);
     }
+
+    public Optional<Car> findById(Long id){
+        return carRepo.findById(id);
+    }
     
     public Optional<Car> updateModel(Long id, String model){
         Optional<Car> updated = carRepo.findById((Long) id);
