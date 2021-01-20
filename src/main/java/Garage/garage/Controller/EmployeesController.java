@@ -54,9 +54,14 @@ public class EmployeesController {
         carManager.save(car);
     }
 
-    @PutMapping
-    public void updateCars(@RequestBody Car car) {
-        carManager.save(car);
+    @PutMapping("/{id}")
+    public ResponseEntity updateCars(@RequestBody Car car, @PathVariable Long id) {
+        Optional<Car> foundCar = carManager.findById(id);
+        if (foundCar.isPresent()) {
+            carManager.save(car);
+        } else
+            return new ResponseEntity("Not found car to update!", HttpStatus.NOT_FOUND);
+        return null;
     }
 
     @DeleteMapping("/{id}")
