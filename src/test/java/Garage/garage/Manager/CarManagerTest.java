@@ -72,54 +72,6 @@ class CarManagerTest {
     }
 
     @Test
-    void updateModel() {
-        Car updated = new Car((long)2,"Ford", "Focus", 15000, LocalDate.parse("2010-01-21"));
-        when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
-
-        Optional<Car> returned = carManager.updateModel(updated.getId(), updated.getModel());
-
-        verify(carRepo, times(1)).findById(updated.getId());
-        verify(carRepo, times(1)).updateModel(updated.getId(), updated.getModel());
-        assertEquals(updated.getModel(), returned.get().getModel());
-    }
-
-    @Test
-    void updateBrand() {
-        Car updated = new Car((long)2,"Audi", "Focus", 15000, LocalDate.parse("2010-01-21"));
-        when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
-
-        Optional<Car> returned = carManager.updateBrand(updated.getId(), updated.getBrand());
-
-        verify(carRepo, times(1)).findById(updated.getId());
-        verify(carRepo, times(1)).updateBrand(updated.getId(), updated.getBrand());
-        assertEquals(updated.getBrand(), returned.get().getBrand());
-    }
-
-    @Test
-    void updateCost() {
-        Car updated = new Car((long)2,"Ford", "Focus", 50000, LocalDate.parse("2010-01-21"));
-        when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
-
-        Optional<Car> returned = carManager.updateCost(updated.getId(), updated.getCost());
-
-        verify(carRepo, times(1)).findById(updated.getId());
-        verify(carRepo, times(1)).updateCost(updated.getId(), updated.getCost());
-        assertEquals(updated.getCost(), returned.get().getCost());
-    }
-
-    @Test
-    void updateManufactureYear() {
-        Car updated = new Car((long)2,"Ford", "Focus", 50000, LocalDate.parse("2011-11-21"));
-        when(carRepo.findById(updated.getId())).thenReturn(java.util.Optional.of(updated));
-
-        Optional<Car> returned = carManager.updateManufactureYear(updated.getId(), updated.getManufactureYear());
-
-        verify(carRepo, times(1)).findById(updated.getId());
-        verify(carRepo, times(1)).updateManufactureYear(updated.getId(), updated.getManufactureYear());
-        assertEquals(updated.getManufactureYear(), returned.get().getManufactureYear());
-    }
-
-    @Test
     void save() {
         Car newCar = new Car((long)3,"Chevrolet", "Cruze", 56000, LocalDate.parse("2010-03-25"));
         when(carRepo.save(newCar)).thenReturn(newCar);

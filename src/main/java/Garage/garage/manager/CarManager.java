@@ -32,30 +32,6 @@ public class CarManager {
     public Optional<Car> findById(Long id){
         return carRepo.findById(id);
     }
-    
-    public Optional<Car> updateModel(Long id, String model){
-        Optional<Car> updated = carRepo.findById((Long) id);
-        carRepo.updateModel(id, model);
-        return updated;
-    }
-
-    public Optional<Car> updateBrand(Long id, String brand){
-        Optional<Car> updated = carRepo.findById((Long) id);
-        carRepo.updateBrand(id, brand);
-        return updated;
-    }
-
-    public Optional<Car> updateCost(Long id, int cost){
-        Optional<Car> updated = carRepo.findById((Long) id);
-        carRepo.updateCost(id, cost);
-        return updated;
-    }
-
-    public Optional<Car> updateManufactureYear(Long id, LocalDate manufactureYear){
-        Optional<Car> updated = carRepo.findById((Long) id);
-        carRepo.updateManufactureYear(id, manufactureYear);
-        return updated;
-    }
 
     public Car save(Car car){
         return carRepo.save(car);

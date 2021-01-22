@@ -44,12 +44,26 @@ public class EmployeesController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity modifyModel(@PathVariable Long id, @RequestBody String model){
+    public ResponseEntity modifyCar(@PathVariable Long id, @RequestBody Car params){
         Optional<Car> foundCar = carManager.findById(id);
-        if (foundCar.isPresent()) {
-            carManager.updateModel(id, model);
+        if(foundCar.isPresent()){
+                foundCar.map(car -> {
+                    if(params.getBrand() != null){
+                        car.setBrand(params.getBrand());
+                    }
+                    if(params.getModel() != null){
+                        car.setModel(params.getModel());
+                    }
+                    if(params.getCost() != null){
+                        car.setCost(params.getCost());
+                    }
+                    if(params.getManufactureYear() != null){
+                        car.setManufactureYear(params.getManufactureYear());
+                    }
+                    return new ResponseEntity(carManager.save(car), HttpStatus.OK);
+                });
         } else
-            return new ResponseEntity("Not found car to update!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Bad brand", HttpStatus.BAD_REQUEST);
         return null;
     }
 

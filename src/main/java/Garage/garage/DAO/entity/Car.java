@@ -10,13 +10,14 @@ public class Car {
     private Long id;
     private String brand;
     private String model;
-    private int cost;
+    private Integer cost;
+    @Column(name = "manufactureYear")
     private LocalDate manufactureYear;
 
     public Car() {
     }
 
-    public Car(Long id, String brand, String model, int cost, LocalDate manufactureYear) {
+    public Car(Long id, String brand, String model, Integer cost, LocalDate manufactureYear) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -48,11 +49,11 @@ public class Car {
         this.model = model;
     }
 
-    public int getCost() {
+    public Integer getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(Integer cost) {
         this.cost = cost;
     }
 
