@@ -80,6 +80,20 @@ class EmployeesControllerTest {
 
     @Test
     void addCars() {
+        ResponseEntity<Car[]> postResponse = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
+                .postForEntity(getRootUrl() + "/employees/cars",
+                        new Car(3L, "Audi", "A3", 50000, LocalDate.parse("2015-03-12")),
+                        Car[].class);
+
+        ResponseEntity<Car[]> getResponse = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
+                .getForEntity(getRootUrl() + "/employees/cars", Car[].class);
+        Integer cost = 50000;
+        List<Car> car1 = Arrays.asList(getResponse.getBody().clone());
+
+        assertThat(postResponse.getStatusCode(), equalTo(HttpStatus.OK));
+        Assert.assertNotNull(getResponse.getBody());
+        assertEquals(car1.get(2).getBrand(), "Audi");
+        assertEquals(car1.get(2).getCost(), cost);
     }
 
     @Test
