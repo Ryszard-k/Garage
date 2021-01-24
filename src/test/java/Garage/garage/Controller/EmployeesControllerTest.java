@@ -102,5 +102,14 @@ class EmployeesControllerTest {
 
     @Test
     void deleteCars() {
+        restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
+                .delete(getRootUrl() + "/employees/cars" + "/1");
+
+        ResponseEntity<Car[]> getResponse = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
+                .getForEntity(getRootUrl() + "/employees/cars", Car[].class);
+        List<Car> car1 = Arrays.asList(getResponse.getBody().clone());
+
+        assertEquals(car1.get(0).getBrand(), "Citroen");
+        assertEquals(1, car1.size());
     }
 }
