@@ -19,6 +19,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
@@ -45,10 +46,10 @@ class EmployeesControllerTest {
     @Test
     void getCars() {
         ResponseEntity<Car[]> response = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
-                .getForEntity(getRootUrl() + "/employees/cars", Car[].class);
+                .getForEntity(getRootUrl() + "/employees/cars/", Car[].class);
+        Integer cost = 30000;
 
         List<Car> car1 = Arrays.asList(response.getBody().clone());
-        Integer cost = 30000;
 
         assertEquals(car1.get(0).getBrand(), "BMW");
         assertEquals(car1.get(0).getCost(), cost);
@@ -60,6 +61,17 @@ class EmployeesControllerTest {
 
     @Test
     void getByBrand() {
+        ResponseEntity<Car[]> response = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
+                .getForEntity(getRootUrl() + "/employees/cars" + "/BMW", Car[].class);
+        Integer cost = 30000;
+
+        List<Car> car1 = Arrays.asList(response.getBody().clone());
+
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+        Assert.assertNotNull(response.getBody());
+        assertEquals(car1.get(0).getBrand(), "BMW");
+        assertEquals(car1.get(0).getCost(), cost);
+        assertEquals(1, car1.size());
     }
 
     @Test
