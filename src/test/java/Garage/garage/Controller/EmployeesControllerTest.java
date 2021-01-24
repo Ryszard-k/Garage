@@ -1,7 +1,7 @@
 package Garage.garage.Controller;
 
 import Garage.garage.DAO.entity.Car;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -18,8 +20,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
@@ -30,7 +30,7 @@ class EmployeesControllerTest {
     private TestRestTemplate restTemplate;
 
     @LocalServerPort
-    private int port = 8080;
+    private int port;
 
     private static final String CLIENT_NAME = "User1";
     private static final String CLIENT_PASSWORD = "User1";
@@ -51,12 +51,12 @@ class EmployeesControllerTest {
 
         List<Car> car1 = Arrays.asList(response.getBody().clone());
 
-        assertEquals(car1.get(0).getBrand(), "BMW");
-        assertEquals(car1.get(0).getCost(), cost);
-        assertEquals(car1.get(1).getManufactureYear(), LocalDate.parse("1997-05-20"));
-        assertEquals(car1.get(1).getModel(), "Berlingo");
+        Assertions.assertEquals(car1.get(0).getBrand(), "BMW");
+        Assertions.assertEquals(car1.get(0).getCost(), cost);
+        Assertions.assertEquals(car1.get(1).getManufactureYear(), LocalDate.parse("1997-05-20"));
+        Assertions.assertEquals(car1.get(1).getModel(), "Berlingo");
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
-        Assert.assertNotNull(response.getBody());
+        Assertions.assertNotNull(response.getBody());
     }
 
     @Test
@@ -68,10 +68,10 @@ class EmployeesControllerTest {
         List<Car> car1 = Arrays.asList(response.getBody().clone());
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
-        Assert.assertNotNull(response.getBody());
-        assertEquals(car1.get(0).getBrand(), "BMW");
-        assertEquals(car1.get(0).getCost(), cost);
-        assertEquals(1, car1.size());
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertEquals(car1.get(0).getBrand(), "BMW");
+        Assertions.assertEquals(car1.get(0).getCost(), cost);
+        Assertions.assertEquals(1, car1.size());
     }
 
     @Test
@@ -79,6 +79,7 @@ class EmployeesControllerTest {
     }
 
     @Test
+    @Rollback
     void addCars() {
         ResponseEntity<Car[]> postResponse = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
                 .postForEntity(getRootUrl() + "/employees/cars",
@@ -91,13 +92,27 @@ class EmployeesControllerTest {
         List<Car> car1 = Arrays.asList(getResponse.getBody().clone());
 
         assertThat(postResponse.getStatusCode(), equalTo(HttpStatus.OK));
-        Assert.assertNotNull(getResponse.getBody());
-        assertEquals(car1.get(2).getBrand(), "Audi");
-        assertEquals(car1.get(2).getCost(), cost);
+        Assertions.assertNotNull(getResponse.getBody());
+        Assertions.assertEquals(car1.get(2).getBrand(), "Audi");
+        Assertions.assertEquals(car1.get(2).getCost(), cost);
     }
 
     @Test
     void updateCars() {
+        restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
+                .put(getRootUrl() + "/employees/cars" + "/2",
+                        new Car(2L, "Audi", "A3", 50000, LocalDate.parse("2015-03-12")),
+                        Car[].class);
+
+        ResponseEntity<Car[]> getResponse = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
+                .getForEntity(getRootUrl() + "/employees/cars", Car[].class);
+        List<Car> car1 = Arrays.asList(getResponse.getBody().clone());
+        Integer cost = 50000;
+
+        Assertions.assertEquals(car1.get(1).getBrand(), "Audi");
+        Assertions.assertEquals(car1.get(1).getModel(), "A3");
+        Assertions.assertEquals(car1.get(1).getCost(), cost);
+        Assertions.assertEquals(car1.get(1).getManufactureYear(), LocalDate.parse("2015-03-12"));
     }
 
     @Test
@@ -109,7 +124,6 @@ class EmployeesControllerTest {
                 .getForEntity(getRootUrl() + "/employees/cars", Car[].class);
         List<Car> car1 = Arrays.asList(getResponse.getBody().clone());
 
-        assertEquals(car1.get(0).getBrand(), "Citroen");
-        assertEquals(1, car1.size());
+        Assertions.assertEquals(1, car1.size());
     }
 }
