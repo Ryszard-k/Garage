@@ -77,23 +77,21 @@ class EmployeesControllerTest {
         verify(carManager, times(1)).findAll();
     }
 
-    /*
         @Test
-        void getByBrand() {
-            ResponseEntity<Car[]> response = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
-                    .getForEntity(getRootUrl() + "/employees/cars" + "/BMW", Car[].class);
-            Integer cost = 30000;
+        void getByBrand() throws Exception {
+            when(carManager.findByBrand(carList().get(1).getBrand())).thenReturn(carList().subList(1,2));
 
-            List<Car> car1 = Arrays.asList(response.getBody().clone());
+            this.mvc.perform(get("/employees/cars" + "/" + carList().get(1).getBrand())
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(1)))
+                    .andExpect(jsonPath("$[0].brand").value("Citroen"));
 
-            assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
-            Assertions.assertNotNull(response.getBody());
-            Assertions.assertEquals(car1.get(0).getBrand(), "BMW");
-            Assertions.assertEquals(car1.get(0).getCost(), cost);
-            Assertions.assertEquals(1, car1.size());
+            verify(carManager, times(1)).findByBrand(carList().get(1).getBrand());
         }
 
-        @Test
+  /*      @Test
         void modifyCar() {
         }
     */
