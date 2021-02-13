@@ -69,10 +69,9 @@ public class EmployeesController {
         return null;
     }
 
-    @Transactional
     @PostMapping
-    public void addCars(@RequestBody Car car){
-        carManager.save(car);
+    public Car addCars(@RequestBody Car car){
+        return carManager.save(car);
     }
 
     @Transactional
