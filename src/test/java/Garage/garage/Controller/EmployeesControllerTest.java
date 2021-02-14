@@ -115,24 +115,33 @@ class EmployeesControllerTest {
 
         verify(carManager, times(1)).save(any(Car.class));
     }
-/*
+
     @Test
-    void updateCars() {
-        restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
-                .put(getRootUrl() + "/employees/cars" + "/2",
-                        new Car(2L, "Audi", "A3", 50000, LocalDate.parse("2015-03-12")),
-                        Car[].class);
+    void updateCar() throws Exception {
+        Car newCar = new Car((long) 4, "Audi", "A6", 30000, LocalDate.parse("2015-03-15"));
 
-        ResponseEntity<Car[]> getResponse = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
-                .getForEntity(getRootUrl() + "/employees/cars", Car[].class);
-        List<Car> car1 = Arrays.asList(getResponse.getBody().clone());
-        Integer cost = 50000;
+        when(carManager.findById(carList().get(0).getId()))
+                .thenReturn(java.util.Optional.ofNullable(carList().get(0)));
+        when(carManager.save(any(Car.class))).thenReturn(newCar);
 
-        Assertions.assertEquals(car1.get(1).getBrand(), "Audi");
-        Assertions.assertEquals(car1.get(1).getModel(), "A3");
-        Assertions.assertEquals(car1.get(1).getCost(), cost);
-        Assertions.assertEquals(car1.get(1).getManufactureYear(), LocalDate.parse("2015-03-12"));
-    }*/
+        this.mvc.perform(put("/employees/cars" + "/" + carList().get(0).getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonAsString(newCar))
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+        )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(newCar.getId()))
+                .andExpect(jsonPath("$.brand").value(newCar.getBrand()))
+                .andExpect(jsonPath("$.model").value(newCar.getModel()))
+                .andExpect(jsonPath("$.cost").value(newCar.getCost()))
+                .andExpect(jsonPath("$.manufactureYear")
+                        .value(newCar.getManufactureYear().toString()));
+
+        verify(carManager, times(1)).findById(carList().get(0).getId());
+        verify(carManager, times(1)).save(any(Car.class));
+    }
 
     @Test
     void deleteCar() throws Exception {
