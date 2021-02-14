@@ -70,8 +70,12 @@ public class EmployeesController {
     }
 
     @PostMapping
-    public Car addCars(@RequestBody Car car){
-        return carManager.save(car);
+    public ResponseEntity addCars(@RequestBody Car car){
+       if (car != null) {
+           carManager.save(car);
+           return new ResponseEntity(car, HttpStatus.CREATED);
+       } else
+           return new ResponseEntity("Empty input data", HttpStatus.BAD_REQUEST);
     }
 
     @Transactional
@@ -87,12 +91,12 @@ public class EmployeesController {
 
     @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCars(@PathVariable Long id) {
+    public ResponseEntity deleteCar(@PathVariable Long id) {
         Optional<Car> foundCar = carManager.findById(id);
         if (foundCar.isPresent()) {
             carManager.deleteById(id);
+            return new ResponseEntity(foundCar,HttpStatus.OK);
         } else
         return new ResponseEntity("Not found car to delete!", HttpStatus.NOT_FOUND);
-        return null;
     }
 }

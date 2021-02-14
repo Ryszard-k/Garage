@@ -26,8 +26,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -108,7 +107,7 @@ class EmployeesControllerTest {
                 .characterEncoding("utf-8")
         )
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.brand").value("Chevrolet"))
                 .andExpect(jsonPath("$.model").value("Cruze"))
                 .andExpect(jsonPath("$.cost").value(56000))
@@ -133,19 +132,28 @@ class EmployeesControllerTest {
         Assertions.assertEquals(car1.get(1).getModel(), "A3");
         Assertions.assertEquals(car1.get(1).getCost(), cost);
         Assertions.assertEquals(car1.get(1).getManufactureYear(), LocalDate.parse("2015-03-12"));
-    }
-
- /*   @Test
-    void deleteCars() {
-        restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
-                .delete(getRootUrl() + "/employees/cars" + "/1");
-
-        ResponseEntity<Car[]> getResponse = restTemplate.withBasicAuth(CLIENT_NAME, CLIENT_PASSWORD)
-                .getForEntity(getRootUrl() + "/employees/cars", Car[].class);
-        List<Car> car1 = Arrays.asList(getResponse.getBody().clone());
-
-        Assertions.assertEquals(1, car1.size());
     }*/
+
+    @Test
+    void deleteCar() throws Exception {
+        when(carManager.findById(carList().get(1).getId()))
+                .thenReturn(java.util.Optional.ofNullable(carList().get(1)));
+        when(carManager.deleteById(carList().get(1).getId()))
+                .thenReturn(java.util.Optional.ofNullable(carList().get(1)));
+
+        this.mvc.perform(delete("/employees/cars" + "/" + carList().get(1).getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.brand").value(carList().get(1).getBrand()))
+                .andExpect(jsonPath("$.model").value(carList().get(1).getModel()))
+                .andExpect(jsonPath("$.cost").value(carList().get(1).getCost()))
+                .andExpect(jsonPath("$.manufactureYear")
+                        .value(carList().get(1).getManufactureYear().toString()));
+
+        verify(carManager, times(1)).findById(carList().get(1).getId());
+        verify(carManager, times(1)).deleteById(carList().get(1).getId());
+    }
 
     public static String jsonAsString(final Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
