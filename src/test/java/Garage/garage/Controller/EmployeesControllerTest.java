@@ -90,10 +90,32 @@ class EmployeesControllerTest {
             verify(carManager, times(1)).findByBrand(carList().get(1).getBrand());
         }
 
-  /*      @Test
-        void modifyCar() {
+        @Test
+        void modifyCar() throws Exception {
+            Car newCar1 = new Car();
+            newCar1.setModel("C3");
+            newCar1.setCost(60000);
+
+            when(carManager.findById(carList().get(1).getId()))
+                    .thenReturn(java.util.Optional.ofNullable(carList().get(1)));
+
+            this.mvc.perform(patch("/employees/cars" + "/" + carList().get(1).getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonAsString(newCar1))
+                    .accept(MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8")
+            )
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.brand").value(carList().get(1).getBrand()))
+                    .andExpect(jsonPath("$.model").value(newCar1.getModel()))
+                    .andExpect(jsonPath("$.cost").value(newCar1.getCost()))
+                    .andExpect(jsonPath("$.manufactureYear")
+                            .value(carList().get(1).getManufactureYear().toString()));
+
+            verify(carManager, times(1)).findById(carList().get(1).getId());
         }
-    */
+
     @Test
     void addCars() throws Exception {
         Car newCar = new Car((long) 3, "Chevrolet", "Cruze", 56000, LocalDate.parse("2010-03-25"));

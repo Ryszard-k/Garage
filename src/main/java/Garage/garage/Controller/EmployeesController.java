@@ -46,8 +46,9 @@ public class EmployeesController {
 
     @Transactional
     @PatchMapping("/{id}")
-    public ResponseEntity<String> modifyCar(@PathVariable Long id, @RequestBody Car params){
+    public ResponseEntity<Object> modifyCar(@PathVariable Long id, @RequestBody Car params){
         Optional<Car> foundCar = carManager.findById(id);
+        final Car[] car1 = new Car[1];
         if(foundCar.isPresent()){
                 foundCar.map(car -> {
                     if(params.getBrand() != null){
@@ -62,11 +63,12 @@ public class EmployeesController {
                     if(params.getManufactureYear() != null){
                         car.setManufactureYear(params.getManufactureYear());
                     }
-                    return new ResponseEntity<>(carManager.save(car), HttpStatus.OK);
+                    car1[0] = car;
+                    return carManager.save(car);
                 });
+            return new ResponseEntity<>(car1[0], HttpStatus.OK);
         } else
             return new ResponseEntity<>("Bad brand", HttpStatus.BAD_REQUEST);
-        return null;
     }
 
     @PostMapping
