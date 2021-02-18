@@ -1,7 +1,7 @@
 package Garage.garage.Manager;
 
-import Garage.garage.DAO.CarRepo;
-import Garage.garage.DAO.entity.Car;
+import Garage.garage.Model.CarRepo;
+import Garage.garage.Model.entity.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

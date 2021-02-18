@@ -1,4 +1,4 @@
-package Garage.garage.DAO.entity;
+package Garage.garage.Model.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

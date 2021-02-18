@@ -1,7 +1,7 @@
 package Garage.garage.Security;
 
-import Garage.garage.DAO.UserRepo;
-import Garage.garage.DAO.entity.User;
+import Garage.garage.Model.UserRepo;
+import Garage.garage.Model.entity.User;
 import Garage.garage.Manager.UserDetailsServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

@@ -1,6 +1,6 @@
 package Garage.garage.Controller;
 
-import Garage.garage.DAO.entity.Car;
+import Garage.garage.Model.entity.Car;
 import Garage.garage.Manager.CarManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

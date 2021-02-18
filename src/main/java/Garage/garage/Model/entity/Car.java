@@ -1,4 +1,4 @@
-package Garage.garage.DAO.entity;
+package Garage.garage.Model.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;

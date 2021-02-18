@@ -1,7 +1,7 @@
 package Garage.garage.Controller;
 
-import Garage.garage.DAO.UserRepo;
-import Garage.garage.DAO.entity.Car;
+import Garage.garage.Model.UserRepo;
+import Garage.garage.Model.entity.Car;
 import Garage.garage.Manager.CarManager;
 import Garage.garage.Manager.UserDetailsServiceImplement;
 import com.fasterxml.jackson.core.JsonProcessingException;

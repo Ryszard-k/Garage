@@ -1,6 +1,6 @@
 package Garage.garage.Manager;
 
-import Garage.garage.DAO.UserRepo;
+import Garage.garage.Model.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
