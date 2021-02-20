@@ -5,6 +5,7 @@ import Garage.garage.Manager.CarManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees/cars")
+@CrossOrigin(origins = "*")
 public class EmployeesController {
 
     private final CarManager carManager;
@@ -45,6 +47,7 @@ public class EmployeesController {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('Employee')")
     @PatchMapping("/{id}")
     public ResponseEntity<Object> modifyCar(@PathVariable Long id, @RequestBody Car params){
         Optional<Car> foundCar = carManager.findById(id);
@@ -71,6 +74,7 @@ public class EmployeesController {
             return new ResponseEntity<>("Bad brand", HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasRole('Employee')")
     @PostMapping
     public ResponseEntity<Object> addCars(@RequestBody Car car){
        if (car != null) {
@@ -81,6 +85,7 @@ public class EmployeesController {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('Employee')")
     @PutMapping("/{id}")
     public ResponseEntity updateCar(@RequestBody Car car, @PathVariable Long id) {
         Optional<Car> foundCar = carManager.findById(id);
@@ -92,6 +97,7 @@ public class EmployeesController {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('Employee')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCar(@PathVariable Long id) {
         Optional<Car> foundCar = carManager.findById(id);

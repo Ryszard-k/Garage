@@ -36,9 +36,11 @@ public class Config extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic()
                 .and()
+                .cors()
+                .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/employees/cars").hasAuthority("User")
+                .antMatchers("/employees/cars").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -55,7 +57,9 @@ public class Config extends WebSecurityConfigurerAdapter {
 
     @EventListener(ApplicationReadyEvent.class)
     public void fillUserDB(){
-        User user1 = new User("User1", passwordEncoder().encode("User1"), "User");
+        User user1 = new User("Employee", passwordEncoder().encode("Employee1"), "Employee");
         userRepo.save(user1);
+        User user2 = new User("Customer", passwordEncoder().encode("Customer1"), "Customer");
+        userRepo.save(user2);
     }
 }

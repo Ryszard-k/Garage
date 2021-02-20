@@ -1,0 +1,9 @@
+{
+    "name": "Garage Store",
+    "background_color": "#282c34",
+    "theme_color": "#282c34",
+    "description": "Store with cars and car parts",
+    "icons": [],
+    "start_url": "http://localhost:3000/",
+    "display": "standalone"
+  }
